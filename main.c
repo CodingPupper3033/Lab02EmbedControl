@@ -56,8 +56,10 @@ void bmp_interrupt_test();
 void pattern_init_test();
 
 // Interrupts
-void timer100ms_interrupt();
 void timer50ms_interrupt();
+void timer250ms_interrupt();
+
+void same_port_interrupt();
 void bmp_interrupt();
 void pb_interrupt();
 
@@ -76,11 +78,11 @@ uint8_t BMP_PINS[]          = {GPIO_PIN0, GPIO_PIN2, GPIO_PIN3, GPIO_PIN5, GPIO_
 
 
 // Globals
-uint8_t count_100ms;
 uint8_t count_50ms;
+uint8_t count_250ms;
 
-Timer_A_UpModeConfig timerConfig100ms;
 Timer_A_UpModeConfig timerConfig50ms;
+Timer_A_UpModeConfig timerConfig250ms;
 
 uint8_t pb_pressed;
 int8_t bmp_pressed;
@@ -101,7 +103,9 @@ int main (void) /* Main Function */
 
     srand(seed);
 
-    BILED_color_test();
+    pb_interrupt_test();
+    //bmp_interrupt_test();
+    //RGB_LED_by_BMP_test();
 
     while(1){ // Loop per game
         // Initialize variables
@@ -133,9 +137,11 @@ void GPIO_Init() {
     {
         // RGB LED Boi
         GPIO_setAsOutputPin(RGB_LED_PORT, RGB_LED_PINS[0] | RGB_LED_PINS[1] | RGB_LED_PINS[2]);
+        set_RGB_LED(RGB_LED_OFF);
 
         // BILED Lad
         GPIO_setAsOutputPin(BILED_PORT, BILED_PINS[0] | BILED_PINS[1]);
+        set_BILED(BILED_OFF);
 
         // Pushbutton
         GPIO_setAsInputPin(PB_PORT_PIN[0], PB_PORT_PIN[1]);
@@ -146,47 +152,45 @@ void GPIO_Init() {
 
     // Interrupt
     {
+        GPIO_enableInterrupt(BMP_PORT, BMP_PINS[0] | BMP_PINS[1] | BMP_PINS[2] | BMP_PINS[3] | BMP_PINS[4] | BMP_PINS[5]);
+        GPIO_interruptEdgeSelect(BMP_PORT, BMP_PINS[0] | BMP_PINS[1] | BMP_PINS[2] | BMP_PINS[3] | BMP_PINS[4] | BMP_PINS[5], GPIO_LOW_TO_HIGH_TRANSITION);
+
+        GPIO_enableInterrupt(PB_PORT_PIN[0], PB_PORT_PIN[1]);
+        GPIO_interruptEdgeSelect(PB_PORT_PIN[0], PB_PORT_PIN[1], GPIO_HIGH_TO_LOW_TRANSITION);
+
         if (BMP_PORT == PB_PORT_PIN[0]) { // If the port is the same for the two isrs
-            uint8_t pins = BMP_PINS[0] | BMP_PINS[1] | BMP_PINS[2] | BMP_PINS[3] | BMP_PINS[4] | BMP_PINS[5] | PB_PORT_PIN[1];
-            GPIO_enableInterrupt(BMP_PORT, pins);
-            GPIO_interruptEdgeSelect(BMP_PORT, pins, GPIO_HIGH_TO_LOW_TRANSITION);
+            GPIO_registerInterrupt(BMP_PORT, same_port_interrupt);
         } else { // Not the same, don't worry
-            GPIO_enableInterrupt(BMP_PORT, BMP_PINS[0] | BMP_PINS[1] | BMP_PINS[2] | BMP_PINS[3] | BMP_PINS[4] | BMP_PINS[5]);
-            GPIO_interruptEdgeSelect(BMP_PORT, BMP_PINS[0] | BMP_PINS[1] | BMP_PINS[2] | BMP_PINS[3] | BMP_PINS[4] | BMP_PINS[5], GPIO_HIGH_TO_LOW_TRANSITION);
-
-            GPIO_enableInterrupt(PB_PORT_PIN[0], PB_PORT_PIN[1]);
-            GPIO_interruptEdgeSelect(PB_PORT_PIN[0], PB_PORT_PIN[1], GPIO_HIGH_TO_LOW_TRANSITION);
+            GPIO_registerInterrupt(BMP_PORT, bmp_interrupt);
+            GPIO_registerInterrupt(PB_PORT_PIN[0], pb_interrupt);
         }
-
-        GPIO_registerInterrupt(BMP_PORT, bmp_interrupt);
-        GPIO_registerInterrupt(PB_PORT_PIN[0], pb_interrupt);
     }
 }
 
 void Timers_Init() {
-    timerConfig100ms = (Timer_A_UpModeConfig){
-        .clockSource = TIMER_A_CLOCKSOURCE_SMCLK,
-        .clockSourceDivider = TIMER_A_CLOCKSOURCE_DIVIDER_64,
-        .timerPeriod = 37500,
-        .timerInterruptEnable_TAIE = TIMER_A_TAIE_INTERRUPT_ENABLE,
-        .timerClear = TIMER_A_DO_CLEAR
-    };
-
     timerConfig50ms = (Timer_A_UpModeConfig){
         .clockSource = TIMER_A_CLOCKSOURCE_SMCLK,
         .clockSourceDivider = TIMER_A_CLOCKSOURCE_DIVIDER_64,
-        .timerPeriod = 18750,
+        .timerPeriod = 18750, // Update
         .timerInterruptEnable_TAIE = TIMER_A_TAIE_INTERRUPT_ENABLE,
         .timerClear = TIMER_A_DO_CLEAR
     };
 
-    Timer_A_configureUpMode(TIMER_A1_BASE, &timerConfig100ms);
-    Timer_A_registerInterrupt(TIMER_A1_BASE, TIMER_A_CCRX_AND_OVERFLOW_INTERRUPT, timer100ms_interrupt);
-    count_100ms = 0;
+    timerConfig250ms = (Timer_A_UpModeConfig){
+        .clockSource = TIMER_A_CLOCKSOURCE_SMCLK,
+        .clockSourceDivider = TIMER_A_CLOCKSOURCE_DIVIDER_64,
+        .timerPeriod = 18750, //Update
+        .timerInterruptEnable_TAIE = TIMER_A_TAIE_INTERRUPT_ENABLE,
+        .timerClear = TIMER_A_DO_CLEAR
+    };
 
-    Timer_A_configureUpMode(TIMER_A2_BASE, &timerConfig50ms);
-    Timer_A_registerInterrupt(TIMER_A2_BASE, TIMER_A_CCRX_AND_OVERFLOW_INTERRUPT, timer50ms_interrupt);
+    Timer_A_configureUpMode(TIMER_A1_BASE, &timerConfig50ms);
+    Timer_A_registerInterrupt(TIMER_A1_BASE, TIMER_A_CCRX_AND_OVERFLOW_INTERRUPT, timer50ms_interrupt);
     count_50ms = 0;
+
+    Timer_A_configureUpMode(TIMER_A2_BASE, &timerConfig250ms);
+    Timer_A_registerInterrupt(TIMER_A2_BASE, TIMER_A_CCRX_AND_OVERFLOW_INTERRUPT, timer250ms_interrupt);
+    count_250ms = 0;
 
 }
 
@@ -202,10 +206,10 @@ void Pattern_Init() {
 void wait_seconds(uint8_t seconds){
     Timer_A_stopTimer(TIMER_A1_BASE);
     Timer_A_clearTimer(TIMER_A1_BASE);
-    count_100ms = 0;
+    count_50ms = 0;
     Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
 
-    while (seconds*10 > count_100ms) {}
+    while (seconds*20 > count_50ms) {} // 1000ms/50ms
 
     Timer_A_stopTimer(TIMER_A1_BASE);
 }
@@ -336,6 +340,7 @@ void BILED_color_test() { // Show red then green
 }
 
 void pb_interrupt_test() {
+    printf("Waiting for PB\r\n");
     while (1) {
         if (pb_pressed) {
             printf("PB Pressed\r\n");
@@ -368,18 +373,42 @@ void pattern_init_test() {
 
 
 // Interrupts
-void timer100ms_interrupt() {
-    Timer_A_clearInterruptFlag(TIMER_A1_BASE);
-    count_100ms++;
-}
-
 void timer50ms_interrupt() {
-    Timer_A_clearInterruptFlag(TIMER_A2_BASE);
+    Timer_A_clearInterruptFlag(TIMER_A1_BASE);
     count_50ms++;
 }
 
+void timer250ms_interrupt() {
+    Timer_A_clearInterruptFlag(TIMER_A2_BASE);
+    count_250ms++;
+}
+
+void same_port_interrupt() {
+    __delay_cycles(240e3); // Debounceage
+    uint8_t active_pins = GPIO_getEnabledInterruptStatus(GPIO_PORT_P4);
+
+    if(active_pins & PB_PORT_PIN[1]){ // Pushbutton?
+        GPIO_clearInterruptFlag(PB_PORT_PIN[0],PB_PORT_PIN[1]);
+        if(!GPIO_getInputPinValue(PB_PORT_PIN[0],PB_PORT_PIN[1])){
+            pb_pressed = 1;
+        }
+    } else {
+        uint8_t i;
+        for (i = 0; i < 6; i++) {
+            if(active_pins & BMP_PINS[i]){
+                GPIO_clearInterruptFlag(BMP_PORT, BMP_PINS[i]);
+                if(!GPIO_getInputPinValue(BMP_PORT,BMP_PINS[i])){
+                    bmp_pressed = i;
+                } else {
+                    bmp_pressed = -1; // May need to remove
+                }
+            }
+        }
+    }
+}
+
 void bmp_interrupt() {
-    __delay_cycles(240e3);
+    __delay_cycles(240e3); // Debounceage
     uint8_t active_pins = GPIO_getEnabledInterruptStatus(GPIO_PORT_P4);
 
     uint8_t i;
