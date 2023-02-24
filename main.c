@@ -310,6 +310,10 @@ void show_colors_state() {
 
         pattern_on++;
     }
+
+    set_BILED(BILED_OFF);
+    set_RGB_LED(RGB_LED_OFF);
+    state = 3;
 }
 
 
