@@ -44,6 +44,11 @@ void set_RGB_LED_by_BMP();
 void set_BILED(BILED_COLOR color);
 
 
+// State Functions
+void show_colors_state();
+
+
+
 // Tests
 void wait_5_seconds_test();
 void RGB_LED_color_test();
@@ -55,9 +60,9 @@ void bmp_interrupt_test();
 
 void pattern_init_test();
 
+
 // Interrupts
 void timer50ms_interrupt();
-void timer250ms_interrupt();
 
 void same_port_interrupt();
 void bmp_interrupt();
@@ -78,16 +83,14 @@ uint8_t BMP_PINS[]          = {GPIO_PIN0, GPIO_PIN2, GPIO_PIN3, GPIO_PIN5, GPIO_
 
 
 // Globals
-uint8_t count_50ms;
-uint8_t count_250ms;
+uint8_t count_50ms; // How many 50ms have passed
 
 Timer_A_UpModeConfig timerConfig50ms;
-Timer_A_UpModeConfig timerConfig250ms;
 
 uint8_t pb_pressed;
 int8_t bmp_pressed;
 
-uint8_t state;
+uint8_t state; // What program state we in?
 uint8_t reminders_left;
 uint8_t removed_patterns;
 
@@ -103,9 +106,7 @@ int main (void) /* Main Function */
 
     srand(seed);
 
-    pb_interrupt_test();
-    //bmp_interrupt_test();
-    //RGB_LED_by_BMP_test();
+    // BILED_color_test(); // Make sure the LED is the correct way round
 
     while(1){ // Loop per game
         // Initialize variables
@@ -116,15 +117,19 @@ int main (void) /* Main Function */
         reminders_left = 1;
         removed_patterns = 1;
 
+        state = 2; // Temporary override
+
         Pattern_Init();
 
         printf("playing instructions\r\n");
 
         while (1) { // Main Game Loop
-            switch (state) {
+            switch (state) { // What state we in?
             case 0:
                 // e
                 break;
+            case 2:
+                show_colors_state();
             }
         }
     }
@@ -176,22 +181,9 @@ void Timers_Init() {
         .timerClear = TIMER_A_DO_CLEAR
     };
 
-    timerConfig250ms = (Timer_A_UpModeConfig){
-        .clockSource = TIMER_A_CLOCKSOURCE_SMCLK,
-        .clockSourceDivider = TIMER_A_CLOCKSOURCE_DIVIDER_64,
-        .timerPeriod = 18750, //Update
-        .timerInterruptEnable_TAIE = TIMER_A_TAIE_INTERRUPT_ENABLE,
-        .timerClear = TIMER_A_DO_CLEAR
-    };
-
     Timer_A_configureUpMode(TIMER_A1_BASE, &timerConfig50ms);
     Timer_A_registerInterrupt(TIMER_A1_BASE, TIMER_A_CCRX_AND_OVERFLOW_INTERRUPT, timer50ms_interrupt);
     count_50ms = 0;
-
-    Timer_A_configureUpMode(TIMER_A2_BASE, &timerConfig250ms);
-    Timer_A_registerInterrupt(TIMER_A2_BASE, TIMER_A_CCRX_AND_OVERFLOW_INTERRUPT, timer250ms_interrupt);
-    count_250ms = 0;
-
 }
 
 void Pattern_Init() {
@@ -295,6 +287,31 @@ void set_BILED(BILED_COLOR color) {
     }
 }
 
+// State functions
+void show_colors_state() {
+    uint8_t pattern_on = 0;
+    set_BILED(BILED_RED);
+
+    Timer_A_stopTimer(TIMER_A1_BASE);
+
+    while (pattern_on < 5-removed_patterns) {
+        set_RGB_LED(color_pattern[pattern_on]);
+
+        Timer_A_clearTimer(TIMER_A1_BASE);
+        count_50ms = 0;
+        Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
+
+
+        while (20 > count_50ms) { // Still within blink time
+            if (10 < count_50ms) {
+                set_RGB_LED(RGB_LED_OFF);
+            }
+        }
+
+        pattern_on++;
+    }
+}
+
 
 // Tests
 void wait_5_seconds_test(){
@@ -376,11 +393,6 @@ void pattern_init_test() {
 void timer50ms_interrupt() {
     Timer_A_clearInterruptFlag(TIMER_A1_BASE);
     count_50ms++;
-}
-
-void timer250ms_interrupt() {
-    Timer_A_clearInterruptFlag(TIMER_A2_BASE);
-    count_250ms++;
 }
 
 void same_port_interrupt() {

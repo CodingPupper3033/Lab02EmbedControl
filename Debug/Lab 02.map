@@ -1,7 +1,7 @@
 ******************************************************************************
                   TI ARM Linker PC v20.2.7                     
 ******************************************************************************
->> Linked Fri Feb 24 11:31:08 2023
+>> Linked Fri Feb 24 12:24:41 2023
 
 OUTPUT FILE NAME:   <Lab 02.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 000039e1
@@ -11,26 +11,26 @@ MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  MAIN                  00000000   00040000  000040fd  0003bf03  R  X
+  MAIN                  00000000   00040000  0000410d  0003bef3  R  X
   INFO                  00200000   00004000  00000000  00004000  R  X
-  SRAM_CODE             01000000   00010000  00000cf4  0000f30c  RW X
-  SRAM_DATA             20000000   00010000  00000cf4  0000f30c  RW  
+  SRAM_CODE             01000000   00010000  00000cdb  0000f325  RW X
+  SRAM_DATA             20000000   00010000  00000cdb  0000f325  RW  
 
 
 SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    00004100   00004100    r-x
+00000000    00000000    00004110   00004110    r-x
   00000000    00000000    000000e4   000000e4    r-- .intvecs
-  000000e4    000000e4    00003dac   00003dac    r-x .text
-  00003e90    00003e90    000001b5   000001b5    r-- .const
-  00004048    00004048    000000b8   000000b8    r-- .cinit
-20000000    20000000    000008f5   00000000    rw-
+  000000e4    000000e4    00003dd4   00003dd4    r-x .text
+  00003eb8    00003eb8    0000019d   0000019d    r-- .const
+  00004058    00004058    000000b8   000000b8    r-- .cinit
+20000000    20000000    000008de   00000000    rw-
   20000000    20000000    000000e8   00000000    rw- .vtable
   200000e8    200000e8    00000400   00000000    rw- .sysmem
-  200004e8    200004e8    00000207   00000000    rw- .bss
-  200006f0    200006f0    00000205   00000000    rw- .data
+  200004e8    200004e8    00000205   00000000    rw- .data
+  200006f0    200006f0    000001ee   00000000    rw- .bss
 2000fc00    2000fc00    00000400   00000000    rw-
   2000fc00    2000fc00    00000400   00000000    rw- .stack
 
@@ -43,7 +43,7 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    000000e4     
                   00000000    000000e4     startup_msp432p401r_ccs.obj (.intvecs:retain)
 
-.text      0    000000e4    00003dac     
+.text      0    000000e4    00003dd4     
                   000000e4    00000a4e     rtsv7M4_T_le_v4SPD16_eabi.lib : _printfi.c.obj (.text:__TI_printfi)
                   00000b32    00000002     startup_msp432p401r_ccs.obj (.text:Default_Handler)
                   00000b34    00000270     rtsv7M4_T_le_v4SPD16_eabi.lib : _printfi.c.obj (.text:_pconv_a)
@@ -72,57 +72,57 @@ section   page    origin      length       input sections
                   0000230c    000000b8                                   : add_device.c.obj (.text:add_device)
                   000023c4    000000b1                                   : _printfi.c.obj (.text:_ltostr)
                   00002475    00000003     --HOLE-- [fill = 0]
-                  00002478    0000009c     main.obj (.text:Timers_Init)
-                  00002514    0000009c     engr2350_msp432.obj (.text:init_std_uart)
-                  000025b0    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.asm.obj (.text)
-                  0000264c    00000098     system_msp432p401r.obj (.text:SystemInit)
-                  000026e4    00000096     rtsv7M4_T_le_v4SPD16_eabi.lib : ull_div_t2.asm.obj (.text)
-                  0000277a    00000002     --HOLE-- [fill = 0]
-                  0000277c    0000008c     main.obj (.text:bmp_interrupt)
-                  00002808    0000008c     rtsv7M4_T_le_v4SPD16_eabi.lib : fputc.c.obj (.text:fputc)
-                  00002894    00000086                                   : fd_cmp_t2.asm.obj (.text:__aeabi_cdcmple)
-                  0000291a    00000086                                   : fd_cmp_t2.asm.obj (.text:__aeabi_cdrcmple)
-                  000029a0    00000084     msp432p4xx_driverlib.lib : gpio.o (.text:GPIO_getEnabledInterruptStatus)
-                  00002a24    00000080                              : interrupt.o (.text:Interrupt_enableInterrupt)
-                  00002aa4    00000080     engr2350_msp432.obj (.text:dopen)
-                  00002b24    00000080     main.obj (.text:main)
-                  00002ba4    0000007a     rtsv7M4_T_le_v4SPD16_eabi.lib : memset_t2.asm.obj (.text)
-                  00002c1e    00000002     --HOLE-- [fill = 0]
-                  00002c20    00000078     main.obj (.text:set_BILED)
-                  00002c98    00000074     rtsv7M4_T_le_v4SPD16_eabi.lib : fclose.c.obj (.text:__TI_closefile)
-                  00002d0c    00000070                                   : memory.c.obj (.text:split)
-                  00002d7c    0000006e                                   : _printfi.c.obj (.text:_mcpy)
-                  00002dea    00000002     --HOLE-- [fill = 0]
-                  00002dec    0000006c                                   : hostrename.c.obj (.text:HOSTrename)
-                  00002e58    00000068                                   : hostlseek.c.obj (.text:HOSTlseek)
-                  00002ec0    00000068     msp432p4xx_driverlib.lib : timer_a.o (.text:Timer_A_configureUpMode)
-                  00002f28    00000068     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  00002f90    00000068                                   : printf.c.obj (.text:printf)
-                  00002ff8    00000064                                   : s_frexp.c.obj (.text:frexp)
-                  0000305c    00000064                                   : fseek.c.obj (.text:fseek)
-                  000030c0    00000062                                   : _io_perm.c.obj (.text:__TI_wrt_ok)
-                  00003122    00000002     --HOLE-- [fill = 0]
-                  00003124    00000060                                   : hostopen.c.obj (.text:HOSTopen)
-                  00003184    0000005c     msp432p4xx_driverlib.lib : interrupt.o (.text:Interrupt_registerInterrupt)
-                  000031e0    0000005c     rtsv7M4_T_le_v4SPD16_eabi.lib : close.c.obj (.text:close)
-                  0000323c    00000058     msp432p4xx_driverlib.lib : gpio.o (.text:GPIO_setAsInputPinWithPullUpResistor)
-                  00003294    00000058     rtsv7M4_T_le_v4SPD16_eabi.lib : hostread.c.obj (.text:HOSTread)
-                  000032ec    00000058                                   : hostwrite.c.obj (.text:HOSTwrite)
-                  00003344    00000058     main.obj (.text:pb_interrupt)
-                  0000339c    00000056     rtsv7M4_T_le_v4SPD16_eabi.lib : _printfi.c.obj (.text:_pconv_f)
-                  000033f2    00000054                                   : _ltoa.c.obj (.text:__TI_ltoa)
-                  00003446    00000002     --HOLE-- [fill = 0]
-                  00003448    00000054     engr2350_msp432.obj (.text:dread)
-                  0000349c    00000052     rtsv7M4_T_le_v4SPD16_eabi.lib : _printfi.c.obj (.text:_ecpy)
-                  000034ee    00000002     --HOLE-- [fill = 0]
-                  000034f0    0000004c     msp432p4xx_driverlib.lib : gpio.o (.text:GPIO_setAsInputPin)
-                  0000353c    0000004c     rtsv7M4_T_le_v4SPD16_eabi.lib : fflush.c.obj (.text:__TI_doflush)
-                  00003588    0000004c                                   : atoi.c.obj (.text:atoi)
-                  000035d4    00000048     main.obj (.text:Pattern_Init)
-                  0000361c    00000048     engr2350_msp432.obj (.text:dwrite)
-                  00003664    00000048     rtsv7M4_T_le_v4SPD16_eabi.lib : exit.c.obj (.text:exit)
-                  000036ac    00000048     main.obj (.text:pb_interrupt_test)
-                  000036f4    00000048     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_toi_t2.asm.obj (.text)
+                  00002478    0000009c     engr2350_msp432.obj (.text:init_std_uart)
+                  00002514    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.asm.obj (.text)
+                  000025b0    00000098     system_msp432p401r.obj (.text:SystemInit)
+                  00002648    00000096     rtsv7M4_T_le_v4SPD16_eabi.lib : ull_div_t2.asm.obj (.text)
+                  000026de    00000002     --HOLE-- [fill = 0]
+                  000026e0    0000008c     main.obj (.text:bmp_interrupt)
+                  0000276c    0000008c     rtsv7M4_T_le_v4SPD16_eabi.lib : fputc.c.obj (.text:fputc)
+                  000027f8    0000008c     main.obj (.text:main)
+                  00002884    00000086     rtsv7M4_T_le_v4SPD16_eabi.lib : fd_cmp_t2.asm.obj (.text:__aeabi_cdcmple)
+                  0000290a    00000086                                   : fd_cmp_t2.asm.obj (.text:__aeabi_cdrcmple)
+                  00002990    00000084     msp432p4xx_driverlib.lib : gpio.o (.text:GPIO_getEnabledInterruptStatus)
+                  00002a14    00000084     main.obj (.text:show_colors_state)
+                  00002a98    00000080     msp432p4xx_driverlib.lib : interrupt.o (.text:Interrupt_enableInterrupt)
+                  00002b18    00000080     engr2350_msp432.obj (.text:dopen)
+                  00002b98    0000007a     rtsv7M4_T_le_v4SPD16_eabi.lib : memset_t2.asm.obj (.text)
+                  00002c12    00000002     --HOLE-- [fill = 0]
+                  00002c14    00000078     main.obj (.text:set_BILED)
+                  00002c8c    00000074     rtsv7M4_T_le_v4SPD16_eabi.lib : fclose.c.obj (.text:__TI_closefile)
+                  00002d00    00000070                                   : memory.c.obj (.text:split)
+                  00002d70    0000006e                                   : _printfi.c.obj (.text:_mcpy)
+                  00002dde    00000002     --HOLE-- [fill = 0]
+                  00002de0    0000006c                                   : hostrename.c.obj (.text:HOSTrename)
+                  00002e4c    00000068                                   : hostlseek.c.obj (.text:HOSTlseek)
+                  00002eb4    00000068     msp432p4xx_driverlib.lib : timer_a.o (.text:Timer_A_configureUpMode)
+                  00002f1c    00000068     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00002f84    00000068                                   : printf.c.obj (.text:printf)
+                  00002fec    00000064                                   : s_frexp.c.obj (.text:frexp)
+                  00003050    00000064                                   : fseek.c.obj (.text:fseek)
+                  000030b4    00000062                                   : _io_perm.c.obj (.text:__TI_wrt_ok)
+                  00003116    00000002     --HOLE-- [fill = 0]
+                  00003118    00000060                                   : hostopen.c.obj (.text:HOSTopen)
+                  00003178    0000005c     msp432p4xx_driverlib.lib : interrupt.o (.text:Interrupt_registerInterrupt)
+                  000031d4    0000005c     rtsv7M4_T_le_v4SPD16_eabi.lib : close.c.obj (.text:close)
+                  00003230    00000058     msp432p4xx_driverlib.lib : gpio.o (.text:GPIO_setAsInputPinWithPullUpResistor)
+                  00003288    00000058     rtsv7M4_T_le_v4SPD16_eabi.lib : hostread.c.obj (.text:HOSTread)
+                  000032e0    00000058                                   : hostwrite.c.obj (.text:HOSTwrite)
+                  00003338    00000058     main.obj (.text:pb_interrupt)
+                  00003390    00000056     rtsv7M4_T_le_v4SPD16_eabi.lib : _printfi.c.obj (.text:_pconv_f)
+                  000033e6    00000002     --HOLE-- [fill = 0]
+                  000033e8    00000054     main.obj (.text:Timers_Init)
+                  0000343c    00000054     rtsv7M4_T_le_v4SPD16_eabi.lib : _ltoa.c.obj (.text:__TI_ltoa)
+                  00003490    00000054     engr2350_msp432.obj (.text:dread)
+                  000034e4    00000052     rtsv7M4_T_le_v4SPD16_eabi.lib : _printfi.c.obj (.text:_ecpy)
+                  00003536    00000002     --HOLE-- [fill = 0]
+                  00003538    0000004c     msp432p4xx_driverlib.lib : gpio.o (.text:GPIO_setAsInputPin)
+                  00003584    0000004c     rtsv7M4_T_le_v4SPD16_eabi.lib : fflush.c.obj (.text:__TI_doflush)
+                  000035d0    0000004c                                   : atoi.c.obj (.text:atoi)
+                  0000361c    00000048     main.obj (.text:Pattern_Init)
+                  00003664    00000048     engr2350_msp432.obj (.text:dwrite)
+                  000036ac    00000048     rtsv7M4_T_le_v4SPD16_eabi.lib : exit.c.obj (.text:exit)
+                  000036f4    00000048                                   : fd_toi_t2.asm.obj (.text)
                   0000373c    00000044                                   : hostclose.c.obj (.text:HOSTclose)
                   00003780    00000044                                   : hostunlink.c.obj (.text:HOSTunlink)
                   000037c4    00000044                                   : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
@@ -159,47 +159,50 @@ section   page    origin      length       input sections
                   00003cf8    0000001c     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
                   00003d14    0000001c                                   : memory.c.obj (.text:free_list_remove)
                   00003d30    0000001c                                   : memccpy.c.obj (.text:memccpy)
-                  00003d4c    0000001c     main.obj (.text:timer250ms_interrupt)
-                  00003d68    0000001c     main.obj (.text:timer50ms_interrupt)
-                  00003d84    0000001a     rtsv7M4_T_le_v4SPD16_eabi.lib : s_copysign.c.obj (.text:copysign)
-                  00003d9e    00000018                                   : strcmp.c.obj (.text:strcmp)
-                  00003db6    00000016     msp432p4xx_driverlib.lib : timer_a.o (.text:Timer_A_clearInterruptFlag)
-                  00003dcc    00000016     rtsv7M4_T_le_v4SPD16_eabi.lib : strchr.c.obj (.text:strchr)
-                  00003de2    00000014                                   : strcpy.c.obj (.text:strcpy)
-                  00003df6    00000014                                   : strlen.c.obj (.text:strlen)
-                  00003e0a    00000012     engr2350_msp432.obj (.text:dlseek)
-                  00003e1c    00000012     rtsv7M4_T_le_v4SPD16_eabi.lib : wcslen.c.obj (.text:wcslen)
-                  00003e2e    00000010     engr2350_msp432.obj (.text:drename)
-                  00003e3e    0000000e     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  00003e4c    0000000e     engr2350_msp432.obj (.text:dunlink)
-                  00003e5a    0000000c     startup_msp432p401r_ccs.obj (.text:Reset_Handler)
-                  00003e66    00000008     engr2350_msp432.obj (.text:SysInit)
-                  00003e6e    00000002     --HOLE-- [fill = 0]
-                  00003e70    00000008     rtsv7M4_T_le_v4SPD16_eabi.lib : errno.c.obj (.text:__aeabi_errno_addr)
-                  00003e78    00000008                                   : memory.c.obj (.text:malloc)
-                  00003e80    00000004                                   : printf.c.obj (.text:_outc)
-                  00003e84    00000004                                   : printf.c.obj (.text:_outs)
-                  00003e88    00000004                                   : pre_init.c.obj (.text:_system_pre_init)
-                  00003e8c    00000004                                   : exit.c.obj (.text:abort:abort)
+                  00003d4c    0000001c     main.obj (.text:timer50ms_interrupt)
+                  00003d68    0000001a     rtsv7M4_T_le_v4SPD16_eabi.lib : s_copysign.c.obj (.text:copysign)
+                  00003d82    00000002     --HOLE-- [fill = 0]
+                  00003d84    00000018     msp432p4xx_driverlib.lib : timer_a.o (.text:Timer_A_clearTimer)
+                  00003d9c    00000018     rtsv7M4_T_le_v4SPD16_eabi.lib : strcmp.c.obj (.text:strcmp)
+                  00003db4    00000016     msp432p4xx_driverlib.lib : timer_a.o (.text:Timer_A_clearInterruptFlag)
+                  00003dca    00000016                              : timer_a.o (.text:Timer_A_startCounter)
+                  00003de0    00000016     rtsv7M4_T_le_v4SPD16_eabi.lib : strchr.c.obj (.text:strchr)
+                  00003df6    00000014     msp432p4xx_driverlib.lib : timer_a.o (.text:Timer_A_stopTimer)
+                  00003e0a    00000014     rtsv7M4_T_le_v4SPD16_eabi.lib : strcpy.c.obj (.text:strcpy)
+                  00003e1e    00000014                                   : strlen.c.obj (.text:strlen)
+                  00003e32    00000012     engr2350_msp432.obj (.text:dlseek)
+                  00003e44    00000012     rtsv7M4_T_le_v4SPD16_eabi.lib : wcslen.c.obj (.text:wcslen)
+                  00003e56    00000010     engr2350_msp432.obj (.text:drename)
+                  00003e66    0000000e     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  00003e74    0000000e     engr2350_msp432.obj (.text:dunlink)
+                  00003e82    0000000c     startup_msp432p401r_ccs.obj (.text:Reset_Handler)
+                  00003e8e    00000008     engr2350_msp432.obj (.text:SysInit)
+                  00003e96    00000002     --HOLE-- [fill = 0]
+                  00003e98    00000008     rtsv7M4_T_le_v4SPD16_eabi.lib : errno.c.obj (.text:__aeabi_errno_addr)
+                  00003ea0    00000008                                   : memory.c.obj (.text:malloc)
+                  00003ea8    00000004                                   : printf.c.obj (.text:_outc)
+                  00003eac    00000004                                   : printf.c.obj (.text:_outs)
+                  00003eb0    00000004                                   : pre_init.c.obj (.text:_system_pre_init)
+                  00003eb4    00000004                                   : exit.c.obj (.text:abort:abort)
 
-.const     0    00003e90    000001b5     
-                  00003e90    00000101     rtsv7M4_T_le_v4SPD16_eabi.lib : ctype.c.obj (.const:.string:_ctypes_)
-                  00003f91    00000003     --HOLE-- [fill = 0]
-                  00003f94    00000030     msp432p4xx_driverlib.lib : gpio.o (.const:GPIO_PORT_TO_BASE)
-                  00003fc4    00000028     engr2350_msp432.obj (.const:$P$T1$2)
-                  00003fec    0000001c     msp432p4xx_driverlib.lib : gpio.o (.const:GPIO_PORT_TO_INT)
-                  00004008    00000018     main.obj (.const:$P$T2$1)
-                  00004020    00000018     main.obj (.const:$P$T3$2)
-                  00004038    00000008     msp432p4xx_driverlib.lib : interrupt.o (.const:g_pulEnRegs)
-                  00004040    00000005     engr2350_msp432.obj (.const:.string:$P$T0$1)
+.const     0    00003eb8    0000019d     
+                  00003eb8    00000101     rtsv7M4_T_le_v4SPD16_eabi.lib : ctype.c.obj (.const:.string:_ctypes_)
+                  00003fb9    00000003     --HOLE-- [fill = 0]
+                  00003fbc    00000030     msp432p4xx_driverlib.lib : gpio.o (.const:GPIO_PORT_TO_BASE)
+                  00003fec    00000028     engr2350_msp432.obj (.const:$P$T1$2)
+                  00004014    0000001c     msp432p4xx_driverlib.lib : gpio.o (.const:GPIO_PORT_TO_INT)
+                  00004030    00000018     main.obj (.const:$P$T1$1)
+                  00004048    00000008     msp432p4xx_driverlib.lib : interrupt.o (.const:g_pulEnRegs)
+                  00004050    00000005     engr2350_msp432.obj (.const:.string:$P$T0$1)
 
-.cinit     0    00004048    000000b8     
-                  00004048    00000080     (.cinit..data.load) [load image, compression = lzss]
-                  000040c8    0000000c     (__TI_handler_table)
-                  000040d4    00000004     --HOLE-- [fill = 0]
-                  000040d8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  000040e0    00000008     (.cinit..vtable.load) [load image, compression = zero_init]
-                  000040e8    00000018     (__TI_cinit_table)
+.cinit     0    00004058    000000b8     
+                  00004058    0000007e     (.cinit..data.load) [load image, compression = lzss]
+                  000040d6    00000002     --HOLE-- [fill = 0]
+                  000040d8    0000000c     (__TI_handler_table)
+                  000040e4    00000004     --HOLE-- [fill = 0]
+                  000040e8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  000040f0    00000008     (.cinit..vtable.load) [load image, compression = zero_init]
+                  000040f8    00000018     (__TI_cinit_table)
 
 .init_array 
 *          0    00000000    00000000     UNINITIALIZED
@@ -213,38 +216,36 @@ section   page    origin      length       input sections
                   200000e8    00000010     rtsv7M4_T_le_v4SPD16_eabi.lib : memory.c.obj (.sysmem)
                   200000f8    000003f0     --HOLE--
 
-.bss       0    200004e8    00000207     UNINITIALIZED
-                  200004e8    00000120     rtsv7M4_T_le_v4SPD16_eabi.lib : trgmsg.c.obj (.bss:_CIOBUF_)
-                  20000608    000000a0     (.common:__TI_tmpnams)
-                  200006a8    00000018     (.common:timerConfig250ms)
-                  200006c0    00000018     (.common:timerConfig50ms)
-                  200006d8    00000008     (.common:color_pattern)
-                  200006e0    00000008     (.common:parmbuf)
-                  200006e8    00000001     (.common:bmp_pressed)
-                  200006e9    00000001     (.common:count_250ms)
-                  200006ea    00000001     (.common:count_50ms)
-                  200006eb    00000001     (.common:pb_pressed)
-                  200006ec    00000001     (.common:reminders_left)
-                  200006ed    00000001     (.common:removed_patterns)
-                  200006ee    00000001     (.common:state)
+.data      0    200004e8    00000205     UNINITIALIZED
+                  200004e8    000000f0     rtsv7M4_T_le_v4SPD16_eabi.lib : defs.c.obj (.data:_ftable)
+                  200005d8    00000078                                   : host_device.c.obj (.data:_device)
+                  20000650    00000050                                   : host_device.c.obj (.data:_stream)
+                  200006a0    00000010                                   : defs.c.obj (.data)
+                  200006b0    0000000c                                   : exit.c.obj (.data:$O1$$)
+                  200006bc    00000008                                   : _lock.c.obj (.data:$O1$$)
+                  200006c4    00000008                                   : memory.c.obj (.data:$O1$$)
+                  200006cc    00000006     main.obj (.data:BMP_PINS)
+                  200006d2    00000004     main.obj (.data)
+                  200006d6    00000002     main.obj (.data:BILED_PINS)
+                  200006d8    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : add_device.c.obj (.data)
+                  200006dc    00000004                                   : errno.c.obj (.data)
+                  200006e0    00000004                                   : open.c.obj (.data)
+                  200006e4    00000004                                   : rand.c.obj (.data)
+                  200006e8    00000003     main.obj (.data:RGB_LED_PINS)
+                  200006eb    00000002     main.obj (.data:PB_PORT_PIN)
 
-.data      0    200006f0    00000205     UNINITIALIZED
-                  200006f0    000000f0     rtsv7M4_T_le_v4SPD16_eabi.lib : defs.c.obj (.data:_ftable)
-                  200007e0    00000078                                   : host_device.c.obj (.data:_device)
-                  20000858    00000050                                   : host_device.c.obj (.data:_stream)
-                  200008a8    00000010                                   : defs.c.obj (.data)
-                  200008b8    0000000c                                   : exit.c.obj (.data:$O1$$)
-                  200008c4    00000008                                   : _lock.c.obj (.data:$O1$$)
-                  200008cc    00000008                                   : memory.c.obj (.data:$O1$$)
-                  200008d4    00000006     main.obj (.data:BMP_PINS)
-                  200008da    00000004     main.obj (.data)
-                  200008de    00000002     main.obj (.data:BILED_PINS)
-                  200008e0    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : add_device.c.obj (.data)
-                  200008e4    00000004                                   : errno.c.obj (.data)
-                  200008e8    00000004                                   : open.c.obj (.data)
-                  200008ec    00000004                                   : rand.c.obj (.data)
-                  200008f0    00000003     main.obj (.data:RGB_LED_PINS)
-                  200008f3    00000002     main.obj (.data:PB_PORT_PIN)
+.bss       0    200006f0    000001ee     UNINITIALIZED
+                  200006f0    00000120     rtsv7M4_T_le_v4SPD16_eabi.lib : trgmsg.c.obj (.bss:_CIOBUF_)
+                  20000810    000000a0     (.common:__TI_tmpnams)
+                  200008b0    00000018     (.common:timerConfig50ms)
+                  200008c8    00000008     (.common:color_pattern)
+                  200008d0    00000008     (.common:parmbuf)
+                  200008d8    00000001     (.common:bmp_pressed)
+                  200008d9    00000001     (.common:count_50ms)
+                  200008da    00000001     (.common:pb_pressed)
+                  200008db    00000001     (.common:reminders_left)
+                  200008dc    00000001     (.common:removed_patterns)
+                  200008dd    00000001     (.common:state)
 
 .stack     0    2000fc00    00000400     UNINITIALIZED
                   2000fc00    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.stack)
@@ -258,9 +259,9 @@ MODULE SUMMARY
        Module                        code    ro data   rw data
        ------                        ----    -------   -------
     .\
-       main.obj                      1704    48        160    
+       main.obj                      1676    24        110    
     +--+-----------------------------+-------+---------+---------+
-       Total:                        1704    48        160    
+       Total:                        1676    24        110    
                                                               
     .\src\
        engr2350_msp432.obj           524     45        0      
@@ -271,11 +272,11 @@ MODULE SUMMARY
                                                               
     C:/ti/simplelink_msp432p4_sdk_3_40_01_02/source/ti/devices/msp432p4xx/driverlib/ccs/msp432p4xx_driverlib.lib
        gpio.o                        700     76        0      
+       timer_a.o                     726     0         0      
        interrupt.o                   220     8         464    
-       timer_a.o                     660     0         0      
        uart.o                        284     0         0      
     +--+-----------------------------+-------+---------+---------+
-       Total:                        1864    84        464    
+       Total:                        1930    84        464    
                                                               
     C:\ti\ccs1210\ccs\tools\compiler\ti-cgt-arm_20.2.7.LTS\lib\rtsv7M4_T_le_v4SPD16_eabi.lib
        _printfi.c.obj                4851    0         0      
@@ -345,22 +346,22 @@ MODULE SUMMARY
                                                               
        Heap:                         0       0         2048   
        Stack:                        0       0         2048   
-       Linker Generated:             0       180       0      
+       Linker Generated:             0       178       0      
     +--+-----------------------------+-------+---------+---------+
-       Grand Total:                  15763   842       6632   
+       Grand Total:                  15801   816       6582   
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 000040e8 records: 3, size/record: 8, table size: 24
-	.data: load addr=00004048, load size=00000080 bytes, run addr=200006f0, run size=00000205 bytes, compression=lzss
-	.bss: load addr=000040d8, load size=00000008 bytes, run addr=200004e8, run size=00000207 bytes, compression=zero_init
-	.vtable: load addr=000040e0, load size=00000008 bytes, run addr=20000000, run size=000000e8 bytes, compression=zero_init
+__TI_cinit_table @ 000040f8 records: 3, size/record: 8, table size: 24
+	.data: load addr=00004058, load size=0000007e bytes, run addr=200004e8, run size=00000205 bytes, compression=lzss
+	.bss: load addr=000040e8, load size=00000008 bytes, run addr=200006f0, run size=000001ee bytes, compression=zero_init
+	.vtable: load addr=000040f0, load size=00000008 bytes, run addr=20000000, run size=000000e8 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 000040c8 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 000040d8 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_lzss
 	index: 2, handler: __TI_decompress_none
@@ -372,12 +373,12 @@ address   name
 -------   ----                                
 00000b33  ADC14_IRQHandler                    
 00000b33  AES256_IRQHandler                   
-200008de  BILED_PINS                          
-200008dc  BILED_PORT                          
-200008d4  BMP_PINS                            
-200008dd  BMP_PORT                            
+200006d6  BILED_PINS                          
+200006d4  BILED_PORT                          
+200006cc  BMP_PINS                            
+200006d5  BMP_PORT                            
 00000b33  BusFault_Handler                    
-00003e8d  C$$EXIT                             
+00003eb5  C$$EXIT                             
 00003937  C$$IO$$                             
 00000b33  COMP_E0_IRQHandler                  
 00000b33  COMP_E1_IRQHandler                  
@@ -402,29 +403,29 @@ address   name
 0000112d  GPIO_Init                           
 00003b39  GPIO_clearInterruptFlag             
 00003b61  GPIO_enableInterrupt                
-000029a1  GPIO_getEnabledInterruptStatus      
+00002991  GPIO_getEnabledInterruptStatus      
 00003a7d  GPIO_getInputPinValue               
 00003c51  GPIO_getInterruptStatus             
 000038cd  GPIO_interruptEdgeSelect            
 00003c75  GPIO_registerInterrupt              
-000034f1  GPIO_setAsInputPin                  
-0000323d  GPIO_setAsInputPinWithPullUpResistor
+00003539  GPIO_setAsInputPin                  
+00003231  GPIO_setAsInputPinWithPullUpResistor
 0000384d  GPIO_setAsOutputPin                 
 00003b89  GPIO_setOutputHighOnPin             
 00003bb1  GPIO_setOutputLowOnPin              
 0000373d  HOSTclose                           
-00002e59  HOSTlseek                           
-00003125  HOSTopen                            
-00003295  HOSTread                            
-00002ded  HOSTrename                          
+00002e4d  HOSTlseek                           
+00003119  HOSTopen                            
+00003289  HOSTread                            
+00002de1  HOSTrename                          
 00003781  HOSTunlink                          
-000032ed  HOSTwrite                           
+000032e1  HOSTwrite                           
 00000b33  HardFault_Handler                   
-00002a25  Interrupt_enableInterrupt           
-00003185  Interrupt_registerInterrupt         
+00002a99  Interrupt_enableInterrupt           
+00003179  Interrupt_registerInterrupt         
 00000b33  MemManage_Handler                   
 00000b33  NMI_Handler                         
-200008f3  PB_PORT_PIN                         
+200006eb  PB_PORT_PIN                         
 00000b33  PCM_IRQHandler                      
 00000b33  PORT1_IRQHandler                    
 00000b33  PORT2_IRQHandler                    
@@ -433,16 +434,16 @@ address   name
 00000b33  PORT5_IRQHandler                    
 00000b33  PORT6_IRQHandler                    
 00000b33  PSS_IRQHandler                      
-000035d5  Pattern_Init                        
+0000361d  Pattern_Init                        
 00000b33  PendSV_Handler                      
-200008f0  RGB_LED_PINS                        
-200008db  RGB_LED_PORT                        
+200006e8  RGB_LED_PINS                        
+200006d3  RGB_LED_PORT                        
 00000b33  RTC_C_IRQHandler                    
-00003e5b  Reset_Handler                       
+00003e83  Reset_Handler                       
 00000b33  SVC_Handler                         
-00003e67  SysInit                             
+00003e8f  SysInit                             
 00000b33  SysTick_Handler                     
-0000264d  SystemInit                          
+000025b1  SystemInit                          
 00000b33  T32_INT1_IRQHandler                 
 00000b33  T32_INT2_IRQHandler                 
 00000b33  T32_INTC_IRQHandler                 
@@ -454,68 +455,71 @@ address   name
 00000b33  TA2_N_IRQHandler                    
 00000b33  TA3_0_IRQHandler                    
 00000b33  TA3_N_IRQHandler                    
-00003db7  Timer_A_clearInterruptFlag          
-00002ec1  Timer_A_configureUpMode             
+00003db5  Timer_A_clearInterruptFlag          
+00003d85  Timer_A_clearTimer                  
+00002eb5  Timer_A_configureUpMode             
 000020b5  Timer_A_registerInterrupt           
-00002479  Timers_Init                         
+00003dcb  Timer_A_startCounter                
+00003df7  Timer_A_stopTimer                   
+000033e9  Timers_Init                         
 000018a9  UART_initModule                     
 00000b33  UsageFault_Handler                  
 4000480c  WDTCTL_SYM                          
 00000b33  WDT_A_IRQHandler                    
-200004e8  __CIOBUF_                           
+200006f0  __CIOBUF_                           
 20010000  __STACK_END                         
 00000400  __STACK_SIZE                        
 00000400  __SYSMEM_SIZE                       
-000040e8  __TI_CINIT_Base                     
-00004100  __TI_CINIT_Limit                    
-000040c8  __TI_Handler_Table_Base             
-000040d4  __TI_Handler_Table_Limit            
+000040f8  __TI_CINIT_Base                     
+00004110  __TI_CINIT_Limit                    
+000040d8  __TI_Handler_Table_Base             
+000040e4  __TI_Handler_Table_Limit            
 000037c5  __TI_auto_init_nobinit_nopinit      
 00003979  __TI_cleanup                        
-200008b8  __TI_cleanup_ptr                    
-00002c99  __TI_closefile                      
-00002f29  __TI_decompress_lzss                
-00003e3f  __TI_decompress_none                
-0000353d  __TI_doflush                        
-200008bc  __TI_dtors_ptr                      
-200008c0  __TI_enable_exit_profile_output     
-200008a8  __TI_ft_end                         
-000033f3  __TI_ltoa                           
+200006b0  __TI_cleanup_ptr                    
+00002c8d  __TI_closefile                      
+00002f1d  __TI_decompress_lzss                
+00003e67  __TI_decompress_none                
+00003585  __TI_doflush                        
+200006b4  __TI_dtors_ptr                      
+200006b8  __TI_enable_exit_profile_output     
+200006a0  __TI_ft_end                         
+0000343d  __TI_ltoa                           
 ffffffff  __TI_pprof_out_hndl                 
 000000e5  __TI_printfi                        
 ffffffff  __TI_prof_data_size                 
 ffffffff  __TI_prof_data_start                
 000039ad  __TI_readmsg                        
 00000000  __TI_static_base__                  
-20000608  __TI_tmpnams                        
+20000810  __TI_tmpnams                        
 00003909  __TI_writemsg                       
-000030c1  __TI_wrt_ok                         
+000030b5  __TI_wrt_ok                         
 00003cf9  __TI_zero_init_nomemset             
-00002895  __aeabi_cdcmpeq                     
-00002895  __aeabi_cdcmple                     
-0000291b  __aeabi_cdrcmple                    
+00002885  __aeabi_cdcmpeq                     
+00002885  __aeabi_cdcmple                     
+0000290b  __aeabi_cdrcmple                    
 000036f5  __aeabi_d2iz                        
 00000f7f  __aeabi_dadd                        
 0000164d  __aeabi_ddiv                        
 00001df9  __aeabi_dmul                        
 00000f75  __aeabi_dsub                        
-00003e71  __aeabi_errno_addr                  
+00003e99  __aeabi_errno_addr                  
 00003add  __aeabi_i2d                         
 00001783  __aeabi_idiv0                       
 00001783  __aeabi_ldiv0                       
-00002ba5  __aeabi_memclr                      
-00002ba5  __aeabi_memclr4                     
-00002ba5  __aeabi_memclr8                     
-000025b1  __aeabi_memcpy                      
-000025b1  __aeabi_memcpy4                     
-000025b1  __aeabi_memcpy8                     
-00002ba7  __aeabi_memset                      
-00002ba7  __aeabi_memset4                     
-00002ba7  __aeabi_memset8                     
-200008b4  __aeabi_stderr                      
-200008ac  __aeabi_stdin                       
-200008b0  __aeabi_stdout                      
-000026e5  __aeabi_uldivmod                    
+00002b99  __aeabi_memclr                      
+00002b99  __aeabi_memclr4                     
+00002b99  __aeabi_memclr8                     
+00002515  __aeabi_memcpy                      
+00002515  __aeabi_memcpy4                     
+00002515  __aeabi_memcpy8                     
+00002b9b  __aeabi_memset                      
+00002b9b  __aeabi_memset4                     
+00002b9b  __aeabi_memset8                     
+200006ac  __aeabi_stderr                      
+200006a4  __aeabi_stdin                       
+200006a8  __aeabi_stdout                      
+00002649  __aeabi_uldivmod                    
 ffffffff  __binit__                           
 ffffffff  __c_args__                          
 UNDEFED   __mpu_init                          
@@ -523,91 +527,88 @@ UNDEFED   __mpu_init
 20000000  __start___llvm_prf_cnts             
 20000000  __stop___llvm_prf_cnts              
 000039e1  _c_int00_noargs                     
-00003e90  _ctypes_                            
-200007e0  _device                             
-200006f0  _ftable                             
-200008c4  _lock                               
+00003eb8  _ctypes_                            
+200005d8  _device                             
+200004e8  _ftable                             
+200006bc  _lock                               
 0000112b  _nop                                
-20000858  _stream                             
+20000650  _stream                             
 200000e8  _sys_memory                         
 UNDEFED   _system_post_cinit                  
-00003e89  _system_pre_init                    
-200008c8  _unlock                             
-00003e8d  abort                               
+00003eb1  _system_pre_init                    
+200006c0  _unlock                             
+00003eb5  abort                               
 0000230d  add_device                          
 00001cf9  aligned_alloc                       
-00003589  atoi                                
+000035d1  atoi                                
 ffffffff  binit                               
-0000277d  bmp_interrupt                       
-200006e8  bmp_pressed                         
-000031e1  close                               
-200006d8  color_pattern                       
-00003d85  copysign                            
-00003d85  copysignl                           
-200006e9  count_250ms                         
-200006ea  count_50ms                          
+000026e1  bmp_interrupt                       
+200008d8  bmp_pressed                         
+000031d5  close                               
+200008c8  color_pattern                       
+00003d69  copysign                            
+00003d69  copysignl                           
+200008d9  count_50ms                          
 00003cdd  dclose                              
-00003e0b  dlseek                              
-00002aa5  dopen                               
-00003449  dread                               
-00003e2f  drename                             
-00003e4d  dunlink                             
-0000361d  dwrite                              
-200008e4  errno                               
-00003665  exit                                
+00003e33  dlseek                              
+00002b19  dopen                               
+00003491  dread                               
+00003e57  drename                             
+00003e75  dunlink                             
+00003665  dwrite                              
+200006dc  errno                               
+000036ad  exit                                
 00003aad  finddevice                          
-00002809  fputc                               
+0000276d  fputc                               
 000019c5  fputs                               
 00001ef5  free                                
 00003a15  freopen                             
-00002ff9  frexp                               
-00002ff9  frexpl                              
-0000305d  fseek                               
+00002fed  frexp                               
+00002fed  frexpl                              
+00003051  fseek                               
 20000000  g_pfnRAMVectors                     
 00003809  getdevice                           
-00002515  init_std_uart                       
+00002479  init_std_uart                       
 00000000  interruptVectors                    
 00001be9  ldexp                               
 00001be9  ldexpl                              
 00003c01  lseek                               
-00002b25  main                                
-00003e79  malloc                              
+000027f9  main                                
+00003ea1  malloc                              
 00001cf9  memalign                            
 00003d31  memccpy                             
 00003cbd  memchr                              
-000025b1  memcpy                              
-00002bad  memset                              
+00002515  memcpy                              
+00002ba1  memset                              
 00002251  open                                
-200006e0  parmbuf                             
-00003345  pb_interrupt                        
-000036ad  pb_interrupt_test                   
-200006eb  pb_pressed                          
-00002f91  printf                              
-00002809  putc                                
+200008d0  parmbuf                             
+00003339  pb_interrupt                        
+200008da  pb_pressed                          
+00002f85  printf                              
+0000276d  putc                                
 00003a49  rand                                
-200006ec  reminders_left                      
+200008db  reminders_left                      
 00003b0d  remove                              
-200006ed  removed_patterns                    
+200008dc  removed_patterns                    
 00002189  same_port_interrupt                 
 00001be9  scalbn                              
 00001be9  scalbnl                             
-200008da  seed                                
-00002c21  set_BILED                           
+200006d2  seed                                
+00002c15  set_BILED                           
 000013cd  set_RGB_LED                         
 00001fd9  setvbuf                             
+00002a15  show_colors_state                   
 00003c99  srand                               
-200006ee  state                               
-00003dcd  strchr                              
-00003d9f  strcmp                              
-00003de3  strcpy                              
-00003df7  strlen                              
+200008dd  state                               
+00003de1  strchr                              
+00003d9d  strcmp                              
+00003e0b  strcpy                              
+00003e1f  strlen                              
 00003941  strncpy                             
-00003d4d  timer250ms_interrupt                
-00003d69  timer50ms_interrupt                 
-200006a8  timerConfig250ms                    
-200006c0  timerConfig50ms                     
+00003d4d  timer50ms_interrupt                 
+200008b0  timerConfig50ms                     
 00003b0d  unlink                              
-00003e1d  wcslen                              
+00003e45  wcslen                              
 00003c29  write                               
 
 
@@ -694,58 +695,58 @@ address   name
 00002189  same_port_interrupt                 
 00002251  open                                
 0000230d  add_device                          
-00002479  Timers_Init                         
-00002515  init_std_uart                       
-000025b1  __aeabi_memcpy                      
-000025b1  __aeabi_memcpy4                     
-000025b1  __aeabi_memcpy8                     
-000025b1  memcpy                              
-0000264d  SystemInit                          
-000026e5  __aeabi_uldivmod                    
-0000277d  bmp_interrupt                       
-00002809  fputc                               
-00002809  putc                                
-00002895  __aeabi_cdcmpeq                     
-00002895  __aeabi_cdcmple                     
-0000291b  __aeabi_cdrcmple                    
-000029a1  GPIO_getEnabledInterruptStatus      
-00002a25  Interrupt_enableInterrupt           
-00002aa5  dopen                               
-00002b25  main                                
-00002ba5  __aeabi_memclr                      
-00002ba5  __aeabi_memclr4                     
-00002ba5  __aeabi_memclr8                     
-00002ba7  __aeabi_memset                      
-00002ba7  __aeabi_memset4                     
-00002ba7  __aeabi_memset8                     
-00002bad  memset                              
-00002c21  set_BILED                           
-00002c99  __TI_closefile                      
-00002ded  HOSTrename                          
-00002e59  HOSTlseek                           
-00002ec1  Timer_A_configureUpMode             
-00002f29  __TI_decompress_lzss                
-00002f91  printf                              
-00002ff9  frexp                               
-00002ff9  frexpl                              
-0000305d  fseek                               
-000030c1  __TI_wrt_ok                         
-00003125  HOSTopen                            
-00003185  Interrupt_registerInterrupt         
-000031e1  close                               
-0000323d  GPIO_setAsInputPinWithPullUpResistor
-00003295  HOSTread                            
-000032ed  HOSTwrite                           
-00003345  pb_interrupt                        
-000033f3  __TI_ltoa                           
-00003449  dread                               
-000034f1  GPIO_setAsInputPin                  
-0000353d  __TI_doflush                        
-00003589  atoi                                
-000035d5  Pattern_Init                        
-0000361d  dwrite                              
-00003665  exit                                
-000036ad  pb_interrupt_test                   
+00002479  init_std_uart                       
+00002515  __aeabi_memcpy                      
+00002515  __aeabi_memcpy4                     
+00002515  __aeabi_memcpy8                     
+00002515  memcpy                              
+000025b1  SystemInit                          
+00002649  __aeabi_uldivmod                    
+000026e1  bmp_interrupt                       
+0000276d  fputc                               
+0000276d  putc                                
+000027f9  main                                
+00002885  __aeabi_cdcmpeq                     
+00002885  __aeabi_cdcmple                     
+0000290b  __aeabi_cdrcmple                    
+00002991  GPIO_getEnabledInterruptStatus      
+00002a15  show_colors_state                   
+00002a99  Interrupt_enableInterrupt           
+00002b19  dopen                               
+00002b99  __aeabi_memclr                      
+00002b99  __aeabi_memclr4                     
+00002b99  __aeabi_memclr8                     
+00002b9b  __aeabi_memset                      
+00002b9b  __aeabi_memset4                     
+00002b9b  __aeabi_memset8                     
+00002ba1  memset                              
+00002c15  set_BILED                           
+00002c8d  __TI_closefile                      
+00002de1  HOSTrename                          
+00002e4d  HOSTlseek                           
+00002eb5  Timer_A_configureUpMode             
+00002f1d  __TI_decompress_lzss                
+00002f85  printf                              
+00002fed  frexp                               
+00002fed  frexpl                              
+00003051  fseek                               
+000030b5  __TI_wrt_ok                         
+00003119  HOSTopen                            
+00003179  Interrupt_registerInterrupt         
+000031d5  close                               
+00003231  GPIO_setAsInputPinWithPullUpResistor
+00003289  HOSTread                            
+000032e1  HOSTwrite                           
+00003339  pb_interrupt                        
+000033e9  Timers_Init                         
+0000343d  __TI_ltoa                           
+00003491  dread                               
+00003539  GPIO_setAsInputPin                  
+00003585  __TI_doflush                        
+000035d1  atoi                                
+0000361d  Pattern_Init                        
+00003665  dwrite                              
+000036ad  exit                                
 000036f5  __aeabi_d2iz                        
 0000373d  HOSTclose                           
 00003781  HOSTunlink                          
@@ -779,70 +780,70 @@ address   name
 00003cdd  dclose                              
 00003cf9  __TI_zero_init_nomemset             
 00003d31  memccpy                             
-00003d4d  timer250ms_interrupt                
-00003d69  timer50ms_interrupt                 
-00003d85  copysign                            
-00003d85  copysignl                           
-00003d9f  strcmp                              
-00003db7  Timer_A_clearInterruptFlag          
-00003dcd  strchr                              
-00003de3  strcpy                              
-00003df7  strlen                              
-00003e0b  dlseek                              
-00003e1d  wcslen                              
-00003e2f  drename                             
-00003e3f  __TI_decompress_none                
-00003e4d  dunlink                             
-00003e5b  Reset_Handler                       
-00003e67  SysInit                             
-00003e71  __aeabi_errno_addr                  
-00003e79  malloc                              
-00003e89  _system_pre_init                    
-00003e8d  C$$EXIT                             
-00003e8d  abort                               
-00003e90  _ctypes_                            
-000040c8  __TI_Handler_Table_Base             
-000040d4  __TI_Handler_Table_Limit            
-000040e8  __TI_CINIT_Base                     
-00004100  __TI_CINIT_Limit                    
+00003d4d  timer50ms_interrupt                 
+00003d69  copysign                            
+00003d69  copysignl                           
+00003d85  Timer_A_clearTimer                  
+00003d9d  strcmp                              
+00003db5  Timer_A_clearInterruptFlag          
+00003dcb  Timer_A_startCounter                
+00003de1  strchr                              
+00003df7  Timer_A_stopTimer                   
+00003e0b  strcpy                              
+00003e1f  strlen                              
+00003e33  dlseek                              
+00003e45  wcslen                              
+00003e57  drename                             
+00003e67  __TI_decompress_none                
+00003e75  dunlink                             
+00003e83  Reset_Handler                       
+00003e8f  SysInit                             
+00003e99  __aeabi_errno_addr                  
+00003ea1  malloc                              
+00003eb1  _system_pre_init                    
+00003eb5  C$$EXIT                             
+00003eb5  abort                               
+00003eb8  _ctypes_                            
+000040d8  __TI_Handler_Table_Base             
+000040e4  __TI_Handler_Table_Limit            
+000040f8  __TI_CINIT_Base                     
+00004110  __TI_CINIT_Limit                    
 20000000  __start___llvm_prf_cnts             
 20000000  __stop___llvm_prf_cnts              
 20000000  g_pfnRAMVectors                     
 200000e8  _sys_memory                         
-200004e8  __CIOBUF_                           
-20000608  __TI_tmpnams                        
-200006a8  timerConfig250ms                    
-200006c0  timerConfig50ms                     
-200006d8  color_pattern                       
-200006e0  parmbuf                             
-200006e8  bmp_pressed                         
-200006e9  count_250ms                         
-200006ea  count_50ms                          
-200006eb  pb_pressed                          
-200006ec  reminders_left                      
-200006ed  removed_patterns                    
-200006ee  state                               
-200006f0  _ftable                             
-200007e0  _device                             
-20000858  _stream                             
-200008a8  __TI_ft_end                         
-200008ac  __aeabi_stdin                       
-200008b0  __aeabi_stdout                      
-200008b4  __aeabi_stderr                      
-200008b8  __TI_cleanup_ptr                    
-200008bc  __TI_dtors_ptr                      
-200008c0  __TI_enable_exit_profile_output     
-200008c4  _lock                               
-200008c8  _unlock                             
-200008d4  BMP_PINS                            
-200008da  seed                                
-200008db  RGB_LED_PORT                        
-200008dc  BILED_PORT                          
-200008dd  BMP_PORT                            
-200008de  BILED_PINS                          
-200008e4  errno                               
-200008f0  RGB_LED_PINS                        
-200008f3  PB_PORT_PIN                         
+200004e8  _ftable                             
+200005d8  _device                             
+20000650  _stream                             
+200006a0  __TI_ft_end                         
+200006a4  __aeabi_stdin                       
+200006a8  __aeabi_stdout                      
+200006ac  __aeabi_stderr                      
+200006b0  __TI_cleanup_ptr                    
+200006b4  __TI_dtors_ptr                      
+200006b8  __TI_enable_exit_profile_output     
+200006bc  _lock                               
+200006c0  _unlock                             
+200006cc  BMP_PINS                            
+200006d2  seed                                
+200006d3  RGB_LED_PORT                        
+200006d4  BILED_PORT                          
+200006d5  BMP_PORT                            
+200006d6  BILED_PINS                          
+200006dc  errno                               
+200006e8  RGB_LED_PINS                        
+200006eb  PB_PORT_PIN                         
+200006f0  __CIOBUF_                           
+20000810  __TI_tmpnams                        
+200008b0  timerConfig50ms                     
+200008c8  color_pattern                       
+200008d0  parmbuf                             
+200008d8  bmp_pressed                         
+200008d9  count_50ms                          
+200008da  pb_pressed                          
+200008db  reminders_left                      
+200008dc  removed_patterns                    
+200008dd  state                               
 2000fc00  __stack                             
 20010000  __STACK_END                         
 4000480c  WDTCTL_SYM                          
