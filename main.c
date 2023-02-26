@@ -46,7 +46,7 @@ void set_BILED(BILED_COLOR color);
 
 // State Functions
 void show_colors_state();
-
+void test_buttons_state();
 
 
 // Tests
@@ -106,8 +106,6 @@ int main (void) /* Main Function */
 
     srand(seed);
 
-    // BILED_color_test(); // Make sure the LED is the correct way round
-
     while(1){ // Loop per game
         // Initialize variables
         pb_pressed = 0;
@@ -117,7 +115,7 @@ int main (void) /* Main Function */
         reminders_left = 1;
         removed_patterns = 1;
 
-        state = 2; // Temporary override
+        state = 0; // Temporary override
 
         Pattern_Init();
 
@@ -125,10 +123,13 @@ int main (void) /* Main Function */
 
         while (1) { // Main Game Loop
             switch (state) { // What state we in?
-            case 0:
-                // e
+            case 0: // Start of game, waits till pb pressed
+                test_buttons_state();
                 break;
-            case 2:
+            case 1: // Waiting 1 sec 'til game start
+                wait_seconds(1);
+                state = 2;
+            case 2: // Blinky bloopy colors
                 show_colors_state();
             }
         }
@@ -314,6 +315,18 @@ void show_colors_state() {
     set_BILED(BILED_OFF);
     set_RGB_LED(RGB_LED_OFF);
     state = 3;
+}
+
+void test_buttons_state() {
+    pb_pressed = 0; // Reset pushbutton just in case
+
+    while (pb_pressed == 0) {
+        set_RGB_LED_by_BMP();
+    }
+
+    // Button Pressed
+    printf("Starting Game:\r\n"); // Maybe Temporary?
+    state = 1;
 }
 
 
