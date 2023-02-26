@@ -146,6 +146,7 @@ int main (void) /* Main Function */
                 break;
             }
             if (state == 6) { // New Game
+                set_BILED(BILED_OFF);
                 break;
             }
         }
