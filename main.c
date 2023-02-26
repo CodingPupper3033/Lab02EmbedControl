@@ -47,6 +47,7 @@ void set_BILED(BILED_COLOR color);
 // State Functions
 void show_colors_state();
 void test_buttons_state();
+void input_colors_state();
 
 
 // Tests
@@ -113,7 +114,7 @@ int main (void) /* Main Function */
 
         state = 0;
         reminders_left = 1;
-        removed_patterns = 1;
+        removed_patterns = 0;
 
         state = 0; // Temporary override
 
@@ -129,8 +130,13 @@ int main (void) /* Main Function */
             case 1: // Waiting 1 sec 'til game start
                 wait_seconds(1);
                 state = 2;
+                break;
             case 2: // Blinky bloopy colors
                 show_colors_state();
+                break;
+            case 3:
+                input_colors_state();
+                break;
             }
         }
     }
@@ -290,13 +296,14 @@ void set_BILED(BILED_COLOR color) {
 
 // State functions
 void show_colors_state() {
-    uint8_t pattern_on = 0;
-    set_BILED(BILED_RED);
+    uint8_t pattern_on = 0; // Reset variables
+
+    set_BILED(BILED_RED); // Tell it is showin colors
 
     Timer_A_stopTimer(TIMER_A1_BASE);
 
-    while (pattern_on < 5-removed_patterns) {
-        set_RGB_LED(color_pattern[pattern_on]);
+    while (pattern_on < 5-removed_patterns) { // While still colors to show
+        set_RGB_LED(color_pattern[pattern_on]); // Set the led to the color
 
         Timer_A_clearTimer(TIMER_A1_BASE);
         count_50ms = 0;
@@ -304,7 +311,7 @@ void show_colors_state() {
 
 
         while (20 > count_50ms) { // Still within blink time
-            if (10 < count_50ms) {
+            if (10 < count_50ms) { // Half way through blink (turn off)
                 set_RGB_LED(RGB_LED_OFF);
             }
         }
@@ -312,6 +319,7 @@ void show_colors_state() {
         pattern_on++;
     }
 
+    // State closing
     set_BILED(BILED_OFF);
     set_RGB_LED(RGB_LED_OFF);
     state = 3;
@@ -320,13 +328,53 @@ void show_colors_state() {
 void test_buttons_state() {
     pb_pressed = 0; // Reset pushbutton just in case
 
-    while (pb_pressed == 0) {
+    while (pb_pressed == 0) { // While the pb hasn't been pressed, show the bumper color
         set_RGB_LED_by_BMP();
     }
 
     // Button Pressed
-    printf("Starting Game:\r\n"); // Maybe Temporary?
+    printf("Starting Game:\r\n"); // Maybe Temporary? Can we say it startin?
     state = 1;
+}
+
+void input_colors_state() {
+    // Reset variables
+    uint8_t pattern_on = 0;
+    bmp_pressed = -1;
+    pb_pressed = 0;
+    Timer_A_stopTimer(TIMER_A1_BASE);
+
+    set_BILED(BILED_GREEN); // Tell user it input time
+
+    if (removed_patterns > 0 ) {
+
+        // Clear & restart timer (just in case)
+        Timer_A_clearTimer(TIMER_A1_BASE);
+        Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
+        while (pattern_on < removed_patterns) { // Still more to input?
+            Timer_A_clearTimer(TIMER_A1_BASE);
+            count_50ms = 0;
+
+            printf("entah\r\n");
+        }
+
+        if (removed_patterns >= 5) { // Did we win?
+            printf("Ya won!\r\n");
+            state = 5;
+        } else {
+            wait_seconds(5);
+        }
+    } else { // If there is no patters, we only wait 2 sec... thx
+        wait_seconds(2);
+        state = 2;
+    }
+
+    // Ending state
+    removed_patterns++;
+
+    Timer_A_stopTimer(TIMER_A1_BASE);
+    set_BILED(BILED_OFF);
+    set_RGB_LED(RGB_LED_OFF);
 }
 
 
