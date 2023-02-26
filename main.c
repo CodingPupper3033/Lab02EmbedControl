@@ -48,6 +48,7 @@ void set_BILED(BILED_COLOR color);
 void show_colors_state();
 void test_buttons_state();
 void input_colors_state();
+void game_done_state(BILED_COLOR color);
 
 
 // Tests
@@ -107,6 +108,8 @@ int main (void) /* Main Function */
 
     srand(seed);
 
+    //pb_interrupt_test();
+
     while(1){ // Loop per game
         // Initialize variables
         pb_pressed = 0;
@@ -115,8 +118,6 @@ int main (void) /* Main Function */
         state = 0;
         reminders_left = 1;
         removed_patterns = 0;
-
-        state = 0; // Temporary override
 
         Pattern_Init();
 
@@ -136,6 +137,15 @@ int main (void) /* Main Function */
                 break;
             case 3:
                 input_colors_state();
+                break;
+            case 4:
+                game_done_state(BILED_RED);
+                break;
+            case 5:
+                game_done_state(BILED_GREEN);
+                break;
+            }
+            if (state == 6) { // New Game
                 break;
             }
         }
@@ -346,35 +356,92 @@ void input_colors_state() {
 
     set_BILED(BILED_GREEN); // Tell user it input time
 
-    if (removed_patterns > 0 ) {
-
+    if (removed_patterns > 0 ) { // Not the first time?
         // Clear & restart timer (just in case)
         Timer_A_clearTimer(TIMER_A1_BASE);
+        count_50ms = 0;
         Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
-        while (pattern_on < removed_patterns) { // Still more to input?
-            Timer_A_clearTimer(TIMER_A1_BASE);
-            count_50ms = 0;
+        while (1) {
+            if (reminders_left > 0) { // Still Have reminders?
+                if (pb_pressed == 1) { // PB Pressed (requesting reminder)
+                    reminders_left--;
+                    state = 2;
+                    break;
+                }
+            }
 
-            printf("entah\r\n");
+
+            if (count_50ms < 60) { // Still within time limit? (3000ms/50ms)
+                if (bmp_pressed != -1) { // Button been fully pressed yet?
+                    if (bmp_pressed == color_pattern[5-removed_patterns+pattern_on]) { // Correct button?
+                        pattern_on++;
+                        bmp_pressed = -1;
+
+                        Timer_A_clearTimer(TIMER_A1_BASE);
+                        count_50ms = 0;
+
+                        if (pattern_on >= removed_patterns) { // we entered enough?
+                            state = 2;
+                            removed_patterns++;
+
+                            if (removed_patterns > 5) { // We win?
+                                printf("You won, congrats!\r\n");
+                                state = 5;
+                                break;
+                            }
+
+                            printf("Correct, waiting 5sec\r\n");
+                            wait_seconds(5);
+                            break;
+                        }
+                    } else {
+                        printf("Incorrect\r\n");
+                        state = 4;
+                        break;
+                    }
+                } else {
+                    set_RGB_LED_by_BMP();
+                }
+            } else {
+                state = 4;
+                printf("Took too long to enter\r\n");
+                break;
+            }
         }
 
-        if (removed_patterns >= 5) { // Did we win?
-            printf("Ya won!\r\n");
-            state = 5;
-        } else {
-            wait_seconds(5);
-        }
     } else { // If there is no patters, we only wait 2 sec... thx
         wait_seconds(2);
         state = 2;
+        removed_patterns++;
     }
 
     // Ending state
-    removed_patterns++;
-
     Timer_A_stopTimer(TIMER_A1_BASE);
     set_BILED(BILED_OFF);
     set_RGB_LED(RGB_LED_OFF);
+}
+
+void game_done_state(BILED_COLOR color) {
+    pb_pressed = 0;
+
+    Timer_A_clearTimer(TIMER_A1_BASE);
+    count_50ms = 0;
+    Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
+
+    while (pb_pressed == 0) { // 250ms/50ms
+        if (count_50ms >= 2*5) { // If blink has passed subtract that time
+            count_50ms -= 2*5;
+        }
+
+        if (count_50ms < 5) {
+            set_BILED(color);
+        } else {
+            set_BILED(BILED_OFF);
+        }
+    }
+
+    Timer_A_stopTimer(TIMER_A1_BASE);
+    state = 6;
 }
 
 
