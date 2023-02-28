@@ -369,6 +369,7 @@ void input_colors_state() {
         count_50ms = 0;
         Timer_A_startCounter(TIMER_A1_BASE, TIMER_A_UP_MODE);
         while (1) {
+            set_RGB_LED_by_BMP();
             if (reminders_left > 0) { // Still Have reminders?
                 if (pb_pressed == 1) { // PB Pressed (requesting reminder)
                     reminders_left--;
@@ -393,6 +394,7 @@ void input_colors_state() {
                         if (pattern_on >= removed_patterns) { // we entered enough?
                             state = 2;
                             removed_patterns++;
+                            set_RGB_LED(RGB_LED_OFF);
 
                             if (removed_patterns > 5) { // We win?
                                 printf("You won, congrats!\r\n");
@@ -571,7 +573,7 @@ void bmp_interrupt() {
     for (i = 0; i < 6; i++) {
         if(active_pins & BMP_PINS[i]){
             GPIO_clearInterruptFlag(BMP_PORT, BMP_PINS[i]);
-            if(!GPIO_getInputPinValue(BMP_PORT,BMP_PINS[i])){
+            if(GPIO_getInputPinValue(BMP_PORT,BMP_PINS[i])){
                 bmp_pressed = i;
             } else {
                 bmp_pressed = -1; // May need to remove
