@@ -109,7 +109,7 @@ int main (void) /* Main Function */
 
     srand(seed);
 
-    //pb_interrupt_test();
+    //bmp_interrupt_test();
 
     while(1){ // Loop per game
         // Initialize variables
@@ -555,7 +555,7 @@ void same_port_interrupt() {
         for (i = 0; i < 6; i++) {
             if(active_pins & BMP_PINS[i]){
                 GPIO_clearInterruptFlag(BMP_PORT, BMP_PINS[i]);
-                if(!GPIO_getInputPinValue(BMP_PORT,BMP_PINS[i])){
+                if(GPIO_getInputPinValue(BMP_PORT,BMP_PINS[i])){
                     bmp_pressed = i;
                 } else {
                     bmp_pressed = -1; // May need to remove
