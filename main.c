@@ -5,7 +5,7 @@
 //** RIN:  662039082
 
 //** Name: Philip Paterson
-//** RIN:  e
+//** RIN:  662031059
 /**********************************************************************/
 
 #include "engr2350_msp432.h"
@@ -42,6 +42,7 @@ void wait_seconds(uint8_t seconds);
 void set_RGB_LED(RGB_LED_COLOR color);
 void set_RGB_LED_by_BMP();
 void set_BILED(BILED_COLOR color);
+void show_pattern(uint8_t removed);
 
 
 // State Functions
@@ -392,6 +393,7 @@ void input_colors_state() {
                             }
 
                             printf("Correct, waiting 5sec\r\n");
+                            set_BILED(BILED_RED);
                             wait_seconds(5);
                             break;
                         }
@@ -411,6 +413,7 @@ void input_colors_state() {
         }
 
     } else { // If there is no patters, we only wait 2 sec... thx
+        set_BILED(BILED_RED);
         wait_seconds(2);
         state = 2;
         removed_patterns++;
