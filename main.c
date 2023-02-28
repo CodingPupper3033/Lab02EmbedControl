@@ -307,6 +307,7 @@ void set_BILED(BILED_COLOR color) {
 }
 
 void show_pattern(uint8_t removed) {
+    uint8_t pattern_on = 0;
     while (pattern_on < 5-removed) { // While still colors to show
         set_RGB_LED(color_pattern[pattern_on]); // Set the led to the color
 
@@ -333,7 +334,7 @@ void show_colors_state() {
 
     Timer_A_stopTimer(TIMER_A1_BASE);
 
-    show_pattern(removed);
+    show_pattern(removed_patterns);
 
     // State closing
     set_BILED(BILED_OFF);
