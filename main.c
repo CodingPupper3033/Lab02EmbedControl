@@ -306,15 +306,8 @@ void set_BILED(BILED_COLOR color) {
     }
 }
 
-// State functions
-void show_colors_state() {
-    uint8_t pattern_on = 0; // Reset variables
-
-    set_BILED(BILED_RED); // Tell it is showin colors
-
-    Timer_A_stopTimer(TIMER_A1_BASE);
-
-    while (pattern_on < 5-removed_patterns) { // While still colors to show
+void show_pattern(uint8_t removed) {
+    while (pattern_on < 5-removed) { // While still colors to show
         set_RGB_LED(color_pattern[pattern_on]); // Set the led to the color
 
         Timer_A_clearTimer(TIMER_A1_BASE);
@@ -330,6 +323,17 @@ void show_colors_state() {
 
         pattern_on++;
     }
+}
+
+// State functions
+void show_colors_state() {
+    uint8_t pattern_on = 0; // Reset variables
+
+    set_BILED(BILED_RED); // Tell it is showin colors
+
+    Timer_A_stopTimer(TIMER_A1_BASE);
+
+    show_pattern(removed);
 
     // State closing
     set_BILED(BILED_OFF);
@@ -367,6 +371,9 @@ void input_colors_state() {
             if (reminders_left > 0) { // Still Have reminders?
                 if (pb_pressed == 1) { // PB Pressed (requesting reminder)
                     reminders_left--;
+                    set_BILED(BILED_RED);
+                    show_pattern(0);
+
                     state = 2;
                     break;
                 }
